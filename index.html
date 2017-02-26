@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Amazon Selling Price Calculation</title>
+	<link rel="stylesheet" type="text/css" href="include/bootstrap.min.css">
+	<style type="text/css">
+		.error{
+			color: red;
+		}
+	</style>
+</head>
+<body>
+<div class="container">
+	<div class="page-header">
+		<h3><strong>Amazon</strong>Selling Price Calculation</h3>
+	</div>
+	<form action="#" class="form-horizontal" rule="form" id="amazonCalForm">
+		<div class="form-group">
+			<label class="label-control col-md-2">Cost price</label>
+			<div class="col-md-5">
+				<input type="text" name="inpCostPrice" id="inpCostPrice" class="form-control onInputChange" placeholder="$ 3000">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="label-control col-md-2">Amazon referral fee</label>
+			<div class="col-md-5">
+				<input type="text" name="inpRefFee" id="inpRefFee" class="form-control onInputChange" placeholder="Starting from 3%">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="label-control col-md-2">Shipping fee</label>
+			<div class="col-md-5">
+				<input type="text" name="inpShippingFee" id="inpShippingFee" class="form-control onInputChange" placeholder="starting at Rs. 30 per item shipped">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="label-control col-md-2">Amazon closing fee</label>
+			<div class="col-md-5">
+				<input type="text" name="inpClosingFee" id="inpClosingFee" class="form-control onInputChange" placeholder="Fixed Closing Fee of Rs.10/unit sold">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="label-control col-md-2">Profit amount</label>
+			<div class="col-md-5">
+				<input type="text" name="inpProfitAmnt" id="inpProfitAmnt" class="form-control onInputChange">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="label-control col-md-2">Shelling Price</label>
+			<div class="col-md-5">
+				<input type="text" name="inpSellPrs" id="inpSellPrs" class="form-control onInputChange" readonly>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-md-8 pull-right">
+				<input type="button" name="inpBtnSub" value="Calcilate Selling Price" class="btn btn-primary" onclick="funTest()">
+				<input type="reset" name="inpBtnReset" value="Reset" class="btn btn-warning">
+			</div>
+		</div>
+	</form>
+</div>
+
+<script type="text/javascript" src="include/jquery.min.js"></script>
+<script type="text/javascript" src="include/bootstrap.min.js"></script>
+<script type="text/javascript" src="include/jquery.validate.min.js"></script>
+<script type="text/javascript">
+	var cost, referral, shpping, closing, profit, shellingPrice;
+	$('#amazonCalForm').validate({
+		rules: {
+			inpCostPrice: 	{
+				required: true,
+	            number: true
+			},
+			inpRefFee	: {
+				required: true,
+	            number: true,
+	            maxlength:2,
+	            min:3
+			},
+			inpShippingFee 	: {
+				required: true,
+	            number: true,
+	            min:30
+			},
+			inpClosingFee 	: {
+				required: true,
+	            number: true
+			},
+			inpProfitAmnt 	: {
+				required: true,
+	            number: true
+			},
+		},
+		messages: {
+			inpCostPrice: "Enter a Valid Price"
+		}
+	});
+	function funTest(){
+		if ($('#amazonCalForm').valid()===true) {
+			cost 		= parseInt($("#inpCostPrice").val());
+			refPer  	= parseInt($("#inpRefFee").val());
+			referral	= cost*(refPer/100);
+			shpping  	= parseInt($("#inpShippingFee").val());
+			closing 	= parseInt($("#inpClosingFee").val());
+			profit 		= parseInt($("#inpProfitAmnt").val()); 
+			
+			shellingPrice=cost+referral+shpping+closing+profit;
+			$("#inpSellPrs").val(shellingPrice);
+		}
+		$(".onInputChange").change(funTest);
+	}
+</script>
+</body>
+</html>
